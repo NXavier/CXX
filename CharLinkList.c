@@ -3,83 +3,109 @@
 #include <stdbool.h>
 #include <string.h>
 
+/**
+    @file main.c
+    @author Nilson Xavier da Luz 0838753 & Samuel Cheung 0836752
+*/
+
+ /**
+    @brief structure
+    */
 struct test_struct
 {
-    int value;
+    int iValue;
     struct test_struct *next;
 };
-int counter=0;
-char myarray[160000];
-struct test_struct *head = NULL;
-struct test_struct *curr = NULL;
 
-struct test_struct* create_list(int value)
+
+int iCounter=0;
+//char myarray[160000];
+struct test_struct *pHead = NULL;
+struct test_struct *pCurr = NULL;
+
+ /**
+    @brief Dit is een struct die een lijst creeërd
+    @param iValue dit is de ingevulde nummer
+    
+    */
+
+struct test_struct* create_list(int iValue)
 {
     
-    struct test_struct *ptr = (struct test_struct*)malloc(sizeof(struct test_struct));
-    if(NULL == ptr)
+    struct test_struct *pPtr = (struct test_struct*)malloc(sizeof(struct test_struct));
+    if(NULL == pPtr)
     {
         printf("\n Node creation failed \n");
         return NULL;
     }
     
-    ptr->value=value;
-    ptr->next = NULL;
-    head = ptr;
+    pPtr->iValue=iValue;
+    pPtr->next = NULL;
+    pHead = pPtr;
     //mymalloc();
-    return ptr;
+    return pPtr;
 }
+ /**
+    @brief Dit is een struct die een ingevulde waarde in een lijst plaats. Als er geen lijst is wordt eerst de lijst gemaakt.
+    @param iValue dit is de ingevulde nummer
+    @param add_to_end dit is om de waarde aan de einde van de lijst te zetten
+    */
 
-struct test_struct* add_to_list(int value, bool add_to_end)
+struct test_struct* add_to_list(int iValue, bool add_to_end)
 {
     printf("------\n");
-    printf(head);
-    if(NULL == head)
+    printf(pHead);
+    if(NULL == pHead)
     {
         //printf("hallllooooo");
-        return (create_list(value));
+        return (create_list(iValue));
 
     }
     
 
-    struct test_struct *ptr = (struct test_struct*)malloc(sizeof(struct test_struct));
-    if(NULL == ptr)
+    struct test_struct *pPtr = (struct test_struct*)malloc(sizeof(struct test_struct));
+    if(NULL == pPtr)
     {
         printf("\n Node creation failed \n");
         return NULL;
     }
-    //strcpy(ptr->val, val);
-    ptr->value= value;
-    //myarray[counter] = ptr->value;
-    ptr->next = NULL;
-    ptr->next = head;
+    //strcpy(pPtr->val, val);
+    pPtr->iValue= iValue;
+    //myarray[counter] = pPtr->iValue;
+    pPtr->next = NULL;
+    pPtr->next = pHead;
     //printf("fgngergreg");
-    head = ptr;
+    pHead = pPtr;
    
-    return ptr;
+    return pPtr;
 }
 
-struct test_struct* search_in_list(int value, struct test_struct **prev)
+ /**
+    @brief Dit is een struct die naar de de invulde iValue zoekt en teruggeeft.
+    @param iValue dit is de ingevulde nummer
+
+    */
+struct test_struct* search_in_list(int iValue, struct test_struct **pPrev)
 {
-    struct test_struct *ptr = head;
+    struct test_struct *pPtr = pHead;
     struct test_struct *tmp = NULL;
     bool found = false;
 
-    printf("\n Searching the list for value %d \n",value);
+    printf("\n Searching the list for iValue %d \n",iValue);
 
-    while(ptr != NULL)
+    while(pPtr != NULL)
     {
-        printf("pointer: %d\n",ptr->value );
-        printf("value: %d\n",value );
+        printf("pointer: %d\n",pPtr->iValue );
+        printf("iValue: %d\n",iValue );
 
-        // if(ptr->value==value)
+        // if(pPtr->iValue==iValue)
         // {
 
         //     printf("dit komt overeen\n" );
         //     found=true;
         //     break;
         // }
-        if(ptr->value==value)
+        if(pPtr->iValue==iValue)
         {
             found = true;
             break;
@@ -87,9 +113,9 @@ struct test_struct* search_in_list(int value, struct test_struct **prev)
         else
         {
             printf("melk \n");
-            printf("ptr: \n", ptr);
-            tmp = ptr;
-            ptr = ptr->next;
+            printf("pPtr: \n", pPtr);
+            tmp = pPtr;
+            pPtr = pPtr->next;
             //found=true;
         }
     }
@@ -97,12 +123,12 @@ struct test_struct* search_in_list(int value, struct test_struct **prev)
     if(true == found)
     {
         printf("found\n");
-        if(prev)
-            printf("je zit in prev\n");
+        if(pPrev)
+            printf("je zit in pPrev\n");
             printf("%d\n", tmp);
-            *prev = tmp;
-            printf("%d\n", *prev );
-        return ptr;
+            *pPrev = tmp;
+            printf("%d\n", *pPrev );
+        return pPtr;
     }
     else
     {
@@ -111,197 +137,195 @@ struct test_struct* search_in_list(int value, struct test_struct **prev)
     }
 }
 
-
-int replace_number(int value,int num)
+ /**
+    @brief In deze methode wordt een gevonden waarde vervangen.
+    @param iValue dit is de ingevulde nummer
+    @param num dit is de vervangende nummer
+    */
+int replace_number(int iValue,int pNum)
 {
-    struct test_struct *prev = NULL;
-    struct test_struct *replace = NULL;
+    struct test_struct *pPrev = NULL;
+    struct test_struct *pReplace = NULL;
 
-    printf("\n Deleting value %d from list\n",value);
+    printf("\n Deleting iValue %d from list\n",iValue);
 
 
-    replace = search_in_list(value,&prev);
-    printf("This is what i want: %d\n", replace );
-    if(replace == NULL)
+    pReplace = search_in_list(iValue,&pPrev);
+    printf("This is what i want: %d\n", pReplace );
+    if(pReplace == NULL)
     {
 
         return -1;
     }
     else
     {
-        //int newnum;
-        //printf("Enter a newwww number\n" );
-        //scanf("new number:%d", &newnum);
-        
-        printf("Dit vervangen: %d\n", replace->value );
-        replace->value= num;
-        // if(prev != NULL)
-        //     printf("prev: %d\n", prev->next );
-        //     printf("replace: %d\n", replace->next );
-        //     prev->next = replace->next;
-
-        // if(replace == curr)
-        // {
-        //     curr = prev;
-        // }
-        // else if(replace == head)
-        // {
-        //     head = replace->next;
-        // }
+        printf("Dit vervangen: %d\n", pReplace->iValue );
+        pReplace->iValue= pNum;
+    
     }
 
     //free(del);
-    replace = NULL;
+    pReplace = NULL;
 
     return 0;
 }
-int delete_from_list(int value)
+ /**
+    @brief In deze methode wordt de gevonden waarde verwijderd.
+    @param iValue dit is de ingevulde nummer
+    */
+int delete_from_list(int iValue)
 {
-    struct test_struct *prev = NULL;
-    struct test_struct *del = NULL;
+    struct test_struct *pPrev = NULL;
+    struct test_struct *pDel = NULL;
 
-    printf("\n Deleting value %d from list\n",value);
+    printf("\n Deleting iValue %d from list\n",iValue);
 
-    del = search_in_list(value,&prev);
-    printf("This is what i want: %d\n", del );
-    if(del == NULL)
+    pDel = search_in_list(iValue,&pPrev);
+    printf("This is what i want: %d\n", pDel );
+    if(pDel == NULL)
     {
 
         return -1;
     }
     else
     {
-        if(prev != NULL)
-            prev->next = del->next;
+        if(pPrev != NULL)
+            pPrev->next = pDel->next;
 
-        if(del == curr)
+        if(pDel == pCurr)
         {
-            curr = prev;
+            pCurr = pPrev;
         }
-        else if(del == head)
+        else if(pDel == pHead)
         {
-            head = del->next;
+            pHead = pDel->next;
         }
     }
 
-    free(del);
-    del = NULL;
+    free(pDel);
+    pDel = NULL;
 
     return 0;
 }
 
+ /**
+    @brief Deze methode print de linked list uit
+    */
 void print_list(void)
 {
-    struct test_struct *ptr = head;
+    struct test_struct *pPtr = pHead;
 
     printf("\n -------Printing list Start------- \n");
 
-    while(ptr != NULL)
+    while(pPtr != NULL)
     {
-        printf("\n %d \n",ptr->value);
-        ptr = ptr->next;
-        //printf("%d\n", ptr);
+        printf("\n %d \n",pPtr->iValue);
+        pPtr = pPtr->next;
+        //printf("%d\n", pPtr);
     }
     printf("\n -------Printing list End------- \n");
 
     return;
 }
-
+ /**
+    @brief Deze methode sorteert de linked list.
+    */
 void sort_list(void)
 {
-    struct test_struct *ptr = head;
+    struct test_struct *pPtr = pHead;
 
-    //printf("\n -------Printing list Start------- \n");
+
     struct test_struct *temp = NULL;
-    while(ptr != NULL)
+    while(pPtr != NULL)
     {
         
-        printf("\n volgende pointer: %d \n",ptr->next);
-        if(ptr->next->value !=NULL)
+        printf("\n volgende pointer: %d \n",pPtr->next);
+        if(pPtr->next->iValue !=NULL)
         {
             
-            printf("\n now: %d \n",ptr->value);
-            printf("\n next: %d \n",ptr->next->value);
+            printf("\n now: %d \n",pPtr->iValue);
+            printf("\n next: %d \n",pPtr->next->iValue);
             
-            if(ptr->value >= ptr->next->value)
+            if(pPtr->iValue >= pPtr->next->iValue)
             {
                 printf("yeeeeeeeee\n");
-                temp = ptr;
-                temp->value = ptr-> value;
-                ptr->value = ptr->next->value;
-                ptr->next->value = temp->value;
-                //ptr = ptr->next;
+                temp = pPtr;
+                temp->iValue = pPtr-> iValue;
+                pPtr->iValue = pPtr->next->iValue;
+                pPtr->next->iValue = temp->iValue;
+                //pPtr = pPtr->next;
                 //return;
                 
             }
             else
             {
-                printf("%d is higher than %d \n", ptr->next, ptr->value );
+                printf("%d is higher than %d \n", pPtr->next, pPtr->iValue );
                 //return;
             }
         }
         //else
         //{
-        //    ptr=ptr->next;
+        //    pPtr=pPtr->next;
         //}
-        ptr = ptr->next;
-        printf("\n %d \n",ptr->value);
+        pPtr = pPtr->next;
+        printf("\n %d \n",pPtr->iValue);
         printf("-------------\n");
 
 
 
-        //printf("%d\n", ptr);
+        //printf("%d\n", pPtr);
     }
-    //printf("\n -------Printing list End------- \n");
+
 
     return;
 }
 
-void mymalloc(void)
-{
-    int i;
+// void mymalloc(void)
+// {
+//     int i;
 
-    for(i=0;i<=20;i++)
-    {
-        printf("%d\n", i );
-        printf("%d\n", myarray[i]);
-    }
-}
-
+//     for(i=0;i<=20;i++)
+//     {
+//         printf("%d\n", i );
+//         printf("%d\n", myarray[i]);
+//     }
+// }
+ 
+ /**
+    @brief De main weergeeft de interface aan waar de gewenste keuzes gemaakt kunnen worden.
+    */
 int main(void)
 {
-    int i = 0, ret = 0;
-    struct test_struct *ptr = NULL;
-    printf("Press 1 for add a word \n");
-    printf("Press 2 for .... \n");
+    int i = 0;
+    struct test_struct *pPtr = NULL;
+    printf("Press 1 for add a number \n");
+    printf("Press 2 to delete a number \n");
     printf("Press 3 for print list\n");
-    printf("Press 4 to replace\n");
-    printf("Press 5 to sort\n");
+    printf("Press 4 to replace a number\n");
+    printf("Press 5 to sort the list\n");
 
-    //print_list();
-    //int nummer[2];
-    //char text [10];
-    int info;
-    int newnum;
+    
+    int iInfo;
+    int iNewnum;
     
     
     while (true)
     {
         printf("Press a number\n");
-        scanf("%d", &info);
-        //printf("Nummer: %d\n", *nummer);
-        switch (info)
+        scanf("%d", &iInfo);
+        
+        switch (iInfo)
                 {
                     case 1:
                     printf("Add a number...\n" );
-                    scanf("%d", &info);
-                    add_to_list(info,true);
+                    scanf("%d", &iInfo);
+                    add_to_list(iInfo,true);
                     break;
 
                     case 2:
-                    printf("Delete word\n" );
-                    scanf("%d", &info);
-                    delete_from_list(info);
+                    printf("Delete number\n" );
+                    scanf("%d", &iInfo);
+                    delete_from_list(iInfo);
                     break;
 
                     case 3:
@@ -309,11 +333,11 @@ int main(void)
                     break;
 
                     case 4:
-                    printf("replace a number\n" );
-                    scanf("%d", &info);
-                    scanf("%d", &newnum);
-                    printf("replace a number\n" );
-                    replace_number(info,newnum);
+                    printf("Enter the number you want to replace\n" );
+                    scanf("%d", &iInfo);
+                    printf("Enter a new number\n" );
+                    scanf("%d", &iNewnum);
+                    replace_number(iInfo,iNewnum);
                     break;
 
                     case 5: 
@@ -323,49 +347,6 @@ int main(void)
                 }
 
     }
-
-
-    /*for(i = 1; i<10; i++)
-    {
-        scanf("%s", &text);
-        //printf("helolo");
-        add_to_list(text,true);
-        print_list();
-    }*/
-
-    //print_list();
-
-    /*for(i = 4; i>0; i--)
-        add_to_list(i,false);
-
-    print_list();
-
-    /*for(i = 1; i<10; i += 4)
-    {
-        ptr = search_in_list(i, NULL);
-        if(NULL == ptr)
-        {
-            printf("\n Search [val = %d] failed, no such element found\n",i);
-        }
-        else
-        {
-            printf("\n Search passed [val = %d]\n",ptr->val);
-        }
-
-        print_list();
-
-        ret = delete_from_list(i);
-        if(ret != 0)
-        {
-            printf("\n delete [val = %d] failed, no such element found\n",i);
-        }
-        else
-        {
-            printf("\n delete [val = %d]  passed \n",i);
-        }
-
-        print_list();
-    }*/
 
     return 0;
 }
