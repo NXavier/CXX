@@ -207,6 +207,56 @@ void print_list(void)
     return;
 }
 
+void sort_list(void)
+{
+    struct test_struct *ptr = head;
+
+    //printf("\n -------Printing list Start------- \n");
+    struct test_struct *temp = NULL;
+    while(ptr != NULL)
+    {
+        
+        printf("\n volgende pointer: %d \n",ptr->next);
+        if(ptr->next->value !=NULL)
+        {
+            
+            printf("\n now: %d \n",ptr->value);
+            printf("\n next: %d \n",ptr->next->value);
+            
+            if(ptr->value >= ptr->next->value)
+            {
+                printf("yeeeeeeeee\n");
+                temp = ptr;
+                temp->value = ptr-> value;
+                ptr->value = ptr->next->value;
+                ptr->next->value = temp->value;
+                //ptr = ptr->next;
+                //return;
+                
+            }
+            else
+            {
+                printf("%d is higher than %d \n", ptr->next, ptr->value );
+                //return;
+            }
+        }
+        //else
+        //{
+        //    ptr=ptr->next;
+        //}
+        ptr = ptr->next;
+        printf("\n %d \n",ptr->value);
+        printf("-------------\n");
+
+
+
+        //printf("%d\n", ptr);
+    }
+    //printf("\n -------Printing list End------- \n");
+
+    return;
+}
+
 void mymalloc(void)
 {
     int i;
@@ -226,9 +276,10 @@ int main(void)
     printf("Press 2 for .... \n");
     printf("Press 3 for print list\n");
     printf("Press 4 to replace\n");
+    printf("Press 5 to sort\n");
 
     //print_list();
-    int nummer[2];
+    //int nummer[2];
     //char text [10];
     int info;
     int newnum;
@@ -263,6 +314,10 @@ int main(void)
                     scanf("%d", &newnum);
                     printf("replace a number\n" );
                     replace_number(info,newnum);
+                    break;
+
+                    case 5: 
+                    sort_list();
                     break;
 
                 }
