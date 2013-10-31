@@ -6,7 +6,6 @@
 struct test_struct
 {
     int value;
-    
     struct test_struct *next;
 };
 int counter=0;
@@ -17,7 +16,7 @@ struct test_struct *curr = NULL;
 struct test_struct* create_list(int value)
 {
     
-    struct test_struct *ptr = (struct test_struct*)&myarray[0];
+    struct test_struct *ptr = (struct test_struct*)malloc(sizeof(struct test_struct));
     if(NULL == ptr)
     {
         printf("\n Node creation failed \n");
@@ -27,7 +26,7 @@ struct test_struct* create_list(int value)
     ptr->value=value;
     ptr->next = NULL;
     head = ptr;
-    mymalloc();
+    //mymalloc();
     return ptr;
 }
 
@@ -37,12 +36,13 @@ struct test_struct* add_to_list(int value, bool add_to_end)
     printf(head);
     if(NULL == head)
     {
+        //printf("hallllooooo");
         return (create_list(value));
 
     }
     
 
-    struct test_struct *ptr = (struct test_struct*)&myarray[0];
+    struct test_struct *ptr = (struct test_struct*)malloc(sizeof(struct test_struct));
     if(NULL == ptr)
     {
         printf("\n Node creation failed \n");
@@ -50,9 +50,10 @@ struct test_struct* add_to_list(int value, bool add_to_end)
     }
     //strcpy(ptr->val, val);
     ptr->value= value;
-    myarray[counter] = ptr->value;
+    //myarray[counter] = ptr->value;
     ptr->next = NULL;
     ptr->next = head;
+    //printf("fgngergreg");
     head = ptr;
    
     return ptr;
@@ -68,40 +69,91 @@ struct test_struct* search_in_list(int value, struct test_struct **prev)
 
     while(ptr != NULL)
     {
-        printf("%d\n",ptr->value );
-        printf("%d\n",value );
+        printf("pointer: %d\n",ptr->value );
+        printf("value: %d\n",value );
 
-        if(ptr->value==0)
+        // if(ptr->value==value)
+        // {
+
+        //     printf("dit komt overeen\n" );
+        //     found=true;
+        //     break;
+        // }
+        if(ptr->value==value)
         {
             found = true;
             break;
         }
         else
         {
+            printf("melk \n");
+            printf("ptr: \n", ptr);
             tmp = ptr;
             ptr = ptr->next;
+            //found=true;
         }
     }
 
     if(true == found)
     {
+        printf("found\n");
         if(prev)
+            printf("je zit in prev\n");
+            printf("%d\n", tmp);
             *prev = tmp;
+            printf("%d\n", *prev );
         return ptr;
     }
     else
     {
+        printf("NOT found\n");
         return NULL;
     }
 }
 
 
-int replace_number(int value)
+int replace_number(int value,int num)
 {
     struct test_struct *prev = NULL;
     struct test_struct *replace = NULL;
 
     printf("\n Deleting value %d from list\n",value);
+
+
+    replace = search_in_list(value,&prev);
+    printf("This is what i want: %d\n", replace );
+    if(replace == NULL)
+    {
+
+        return -1;
+    }
+    else
+    {
+        //int newnum;
+        //printf("Enter a newwww number\n" );
+        //scanf("new number:%d", &newnum);
+        
+        printf("Dit vervangen: %d\n", replace->value );
+        replace->value= num;
+        // if(prev != NULL)
+        //     printf("prev: %d\n", prev->next );
+        //     printf("replace: %d\n", replace->next );
+        //     prev->next = replace->next;
+
+        // if(replace == curr)
+        // {
+        //     curr = prev;
+        // }
+        // else if(replace == head)
+        // {
+        //     head = replace->next;
+        // }
+    }
+
+    //free(del);
+    replace = NULL;
+
+    return 0;
 }
 int delete_from_list(int value)
 {
@@ -111,6 +163,7 @@ int delete_from_list(int value)
     printf("\n Deleting value %d from list\n",value);
 
     del = search_in_list(value,&prev);
+    printf("This is what i want: %d\n", del );
     if(del == NULL)
     {
 
@@ -172,11 +225,13 @@ int main(void)
     printf("Press 1 for add a word \n");
     printf("Press 2 for .... \n");
     printf("Press 3 for print list\n");
+    printf("Press 4 to replace\n");
 
     //print_list();
     int nummer[2];
     //char text [10];
     int info;
+    int newnum;
     
     
     while (true)
@@ -200,6 +255,16 @@ int main(void)
 
                     case 3:
                     print_list();
+                    break;
+
+                    case 4:
+                    printf("replace a number\n" );
+                    scanf("%d", &info);
+                    scanf("%d", &newnum);
+                    printf("replace a number\n" );
+                    replace_number(info,newnum);
+                    break;
+
                 }
 
     }
