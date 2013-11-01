@@ -11,17 +11,17 @@
  /**
     @brief structure
     */
-struct test_struct
+struct data_struct
 {
     int iValue;
-    struct test_struct *next;
+    struct data_struct *next;
 };
 
 
 int iCounter=0;
 //char myarray[160000];
-struct test_struct *pHead = NULL;
-struct test_struct *pCurr = NULL;
+struct data_struct *pHead = NULL;
+struct data_struct *pCurr = NULL;
 
  /**
     @brief Dit is een struct die een lijst creeërd
@@ -29,10 +29,10 @@ struct test_struct *pCurr = NULL;
     
     */
 
-struct test_struct* create_list(int iValue)
+struct data_struct* create_list(int iValue)
 {
     
-    struct test_struct *pPtr = (struct test_struct*)malloc(sizeof(struct test_struct));
+    struct data_struct *pPtr = (struct data_struct*)malloc(sizeof(struct data_struct));
     if(NULL == pPtr)
     {
         printf("\n Node creation failed \n");
@@ -51,14 +51,14 @@ struct test_struct* create_list(int iValue)
     @param add_to_end dit is om de waarde aan de einde van de lijst te zetten
     */
 
-struct test_struct* add_to_list(int iValue, bool add_to_end)
+struct data_struct* add_to_list(int iValue, bool add_to_end)
 {
     if(NULL == pHead)
     {
         return (create_list(iValue));
     }
     
-    struct test_struct *pPtr = (struct test_struct*)malloc(sizeof(struct test_struct));
+    struct data_struct *pPtr = (struct data_struct*)malloc(sizeof(struct data_struct));
     if(NULL == pPtr)
     {
         printf("\n Node creation failed \n");
@@ -78,10 +78,10 @@ struct test_struct* add_to_list(int iValue, bool add_to_end)
     @param iValue dit is de ingevulde nummer
 
     */
-struct test_struct* search_in_list(int iValue, struct test_struct **pPrev)
+struct data_struct* search_in_list(int iValue, struct data_struct **pPrev)
 {
-    struct test_struct *pPtr = pHead;
-    struct test_struct *pTmp = NULL;
+    struct data_struct *pPtr = pHead;
+    struct data_struct *pTmp = NULL;
     bool found = false;
 
     printf("\n Searching the list for iValue %d \n",iValue);
@@ -127,8 +127,8 @@ struct test_struct* search_in_list(int iValue, struct test_struct **pPrev)
     */
 int replace_number(int iValue,int pNum)
 {
-    struct test_struct *pPrev = NULL;
-    struct test_struct *pReplace = NULL;
+    struct data_struct *pPrev = NULL;
+    struct data_struct *pReplace = NULL;
 
     printf("\n Deleting iValue %d from list\n",iValue);
 
@@ -152,8 +152,8 @@ int replace_number(int iValue,int pNum)
     */
 int delete_from_list(int iValue)
 {
-    struct test_struct *pPrev = NULL;
-    struct test_struct *pDel = NULL;
+    struct data_struct *pPrev = NULL;
+    struct data_struct *pDel = NULL;
 
     printf("\n Deleting iValue %d from list\n",iValue);
 
@@ -189,7 +189,7 @@ int delete_from_list(int iValue)
     */
 void print_list(void)
 {
-    struct test_struct *pPtr = pHead;
+    struct data_struct *pPtr = pHead;
 
     printf("\n -------Printing list Start------- \n");
 
@@ -207,14 +207,14 @@ void print_list(void)
     */
 void sort_list(void)
 {
-    struct test_struct *pPtr = pHead;
+    struct data_struct *pPtr = pHead;
     int iTemp;
 
     while(pPtr != NULL)
     {
         if(pPtr->next == 0)
         {
-            printf("End of List\n");
+            //printf("End of List\n");
             return;
         }
         else
@@ -225,26 +225,12 @@ void sort_list(void)
                 pPtr->iValue = pPtr->next->iValue;
                 pPtr->next->iValue = iTemp;
             }
-            else
-            {
-                printf("%d is higher than %d \n", pPtr->next->iValue, pPtr->iValue );
-            }
         }
         pPtr = pPtr->next;
     }
     return;
 }
 
-// void mymalloc(void)
-// {
-//     int i;
-
-//     for(i=0;i<=20;i++)
-//     {
-//         printf("%d\n", i );
-//         printf("%d\n", myarray[i]);
-//     }
-// }
  
  /**
     @brief De main weergeeft de interface aan waar de gewenste keuzes gemaakt kunnen worden.
@@ -252,9 +238,9 @@ void sort_list(void)
 int main(void)
 {
     int i = 0;
-    int iInfo;
-    int iNewnum;
-    struct test_struct *pPtr = NULL;
+    int iInfo,iNewnum,iSortCount;
+    
+    struct data_struct *pPtr = NULL;
 
     printf("Press 1 for add a number \n");
     printf("Press 2 to delete a number \n");
@@ -294,8 +280,10 @@ int main(void)
             break;
 
             case 5: 
-            sort_list();
-            sort_list();
+            for(iSortCount=0;iSortCount<=100;iSortCount++)
+            {
+                sort_list();
+            }
             break;
         }
     }
