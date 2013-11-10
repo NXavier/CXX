@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <omp.h>
 
 /**
     @file main.c
@@ -279,10 +280,15 @@ int main(void)
             replace_number(iInfo,iNewnum);
             break;
 
+            
             case 5: 
-            for(iSortCount=0;iSortCount<=100;iSortCount++)
+            #pragma omp parallel
             {
-                sort_list();
+                #pragma omp for
+                for(iSortCount=0;iSortCount<=100;iSortCount++)
+                {
+                    sort_list();
+                }
             }
             break;
         }
